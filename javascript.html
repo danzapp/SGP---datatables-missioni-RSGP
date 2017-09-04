@@ -7,11 +7,10 @@
         google.script.run
         .withSuccessHandler(onReadData)
         .readData()
-   }
+    }
       
       function onReadData(dataObject){
-      
-
+      console.log('onReadData ' + JSON.stringify(dataObject))
       moment.locale('it')
       // parse necessario se l'oggetto viene restituito come JSON
       dataObject = JSON.parse(dataObject)
@@ -25,7 +24,6 @@
        
        console.log(keys)
        
-
        
         $(document).ready(function (){
         
@@ -59,7 +57,7 @@
         
         buttons: [
         
-               { text: 'Inserisci', action: function (e, dt, node, conf) { window.open('https://docs.google.com/a/aci.it/forms/d/1CDagx-dPnZvP9S1YkKSaTtmGd4by_a8C0BL0um9nMhk/viewform', '_blank' );} },
+               { text: 'Inserisci', action: function (e, dt, node, conf) { window.open('https://docs.google.com/a/aci.it/forms/d/e/1FAIpQLSdZX3drtBv9zufluGyu7norQbrcpLIrU4ayYs8DEexYNBAx2w/viewform?entry.1838180764&entry.1841017719&entry.1974399747&entry.1741925586&entry.2146549455&entry.313440553=Da+effettuare', '_blank' );} },
                 'copyHtml5',                                                            
                 'excelHtml5',
                { extend: 'csvHtml5', text: 'XLS', orientation: 'landscape', alignment: 'center', exportOptions: { columns: [ 0, 1, 2, 3, 4] } },
@@ -70,20 +68,17 @@
         columns: [
         
 /* 00 */          { data: 'Update', title: "Modulo",orderable: false,}, 
-/* 01 */           { data: 'DeOrdine di movimento', title: "Ordine di movimento"},
+/* 01 */           { data: 'Ordine di movimento', title: "Ordine di movimento"},
 /* 02 */           { data: 'Nominativo', title: "Nominativo"},
 /* 03 */           { data: 'Provincia missione', title: "Provincia missione"},
 /* 04 */           { data: 'Data inizio', title: "Data inizio"},
-/* 05 */           { data: 'Data fine', title: "Data fine", visible: false},
+/* 05 */           { data: 'Data fine', title: "Data fine", visible: false },
 /* 06 */           { data: 'Data durata', title: "Data durata", visible: false },
 /* 07 */           { data: 'Giorni', title: "Giorni"},
 /* 08 */           { data: "Tipologia", title: "Personale assegnato", visible:false},
-/* 09 */           { data: "Personale in produzione", title: "Tipologia", visible:false},
-/* 10 */           { data:  null, title: "Foto uffici"},
-/* 11 */           { data:  null, title: "Planimetrie", visible:true},
-/* 12 */           { data:  null, title: "Dettagli", className: 'details-control', orderable: false, searchable: false, defaultContent: '' }, 
-/* 13 */           { data: "Importo a preventivo", title: "Importo a preventivo", visible:false},
-/* 14 */           { data: "Importo a consuntivo", title: "Importo a consuntivo", visible:false},
+/* 09 */           { data: "Importo a preventivo", title: "Importo a preventivo", visible:false},
+/* 10 */           { data: "Importo a consuntivo", title: "Importo a consuntivo", visible:false},
+/* 11 */           { data: "Stato missione", title: "Stato missione", visible:true},
 
           ],
           
@@ -108,44 +103,7 @@
          { targets: [7], render: function ( data, type, row) {       
              return data.toFixed(2)         
              }
-          },
-          
-         { targets: [10], render: function ( data, type, row) { 
-            
-              var UT = row['Ufficio Territoriale'].toUpperCase()
-              var fotoUT = foto.filter(function (el){
-                  return el['UT'] == UT
-              })
-              
-              var numFoto = fotoUT.length;
-              if (numFoto >0){
-              //"[{'a':1, 'b':2},{'a':2, 'b':3}]"
-              var JSONfotoUT = JSON.stringify(fotoUT)
-              
-              // per passare l'oggetto come data-attributes si deve convertire in stringa e poi usare l'escape '\
-                return '<button id="btnGalleryFoto" class="btn btn-info galleryFoto" data-ufficio="'+UT+'" data-immagini=\''+ JSONfotoUT + '\' data-toggle="modal" data-target=".bs-example-modal-lg">Foto <span class="badge">' + numFoto + '</span></button>';}
-                else return '';}
-          },
-
-
-// ------------------ foto planimetrie           
-          { targets: [11], render: function ( data, type, row) { 
-            
-              var UT = row['Ufficio Territoriale'].toUpperCase()
-              var planimetrieUT = planimetrie.filter(function (el){
-                  return el['UT'] == UT
-              })
-              
-              var numPlanimetrie = planimetrieUT.length;
-              if (numPlanimetrie >0){
-              //"[{'a':1, 'b':2},{'a':2, 'b':3}]"
-              var JSONplanimetrieUT = JSON.stringify(planimetrieUT)
-              
-              // per passare l'oggetto come data-attributes si deve convertire in stringa e poi usare l'escape '\
-                return '<button id="btnGalleryPlan" class="btn btn-info galleryPlanimetrie" data-ufficio="'+UT+'" data-planimetrie=\''+ JSONplanimetrieUT + '\' data-toggle="modal" data-target=".bs-example-modal-lg">Planimetrie <span class="badge">' + numPlanimetrie + '</span></button>';}
-                else return '';}
-          }, 
-// ------------------ fine foto planimetrie            
+          }   
          
         ],
         
@@ -157,199 +115,18 @@
 //          scrollXInner: "110%",
           paging: true,
           paginationType: 'full',
-          order: [[13,  'asc'],[ 4, 'desc' ],[ 2, 'asc' ]],
+          order: [[ 4, 'desc' ],[ 2, 'asc' ]],
 //          displayLength: 5,
           lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 //          pageLength: 10,
           autoWidth: true,
-//          fixedColumns: { leftColumns: 3 },
-//          rowGroup: {
-//                dataSrc: 'Regione'
-//                },
-//            
-        // -------------  Datatables Row grouping
 
-          drawCallback: function ( settings ) {
-
-         // ------------- Inizio Row Grouping singlecolumns vers.2
-            var api = this.api();
-            var rows = api.rows( {page:'current'} ).nodes();
-            var last=null;
- 
-            api.column(13, {page:'current'} ).data().each( function ( group, i ) {
- 
-              if (last !== group) {
-                var rowData = api.row(i).data();
-                console.log(rowData)
- 
-                $(rows).eq(i).before(
-                  '<tr class="group"><td colspan="24">' + group +'</td></tr>'
-                );
-              last = group;
-              }
-         });
-         
-        }  // chiusura chiamata alla funzione di Row Grouping 'drawCallback: function ( settings ) {'
-        
-           // ------------- Fine Row Grouping singlecolumn vers.2 
-     
  });       // chiusura chiamata alla funzione di definizio della variabile 'myTb'
- 
-$('.bodycontainer').css( 'display', 'block' );
-table.columns.adjust().draw();
+})
+}
 
-// ------------ carousel Foto Spazi UT  ----------------
- $('.dataTable').on('click','#btnGalleryFoto', function(e){
-   
-   var immagini = $(this).data('immagini')
+//$('.bodycontainer').css( 'display', 'block' );
+//table.columns.adjust().draw();
 
-   //var UT = ($(this).closest('tr').find('td').eq(3).text()).toUpperCase();
-   var UT = $(this).data('ufficio')
-   console.log('this UT ' + UT)
-   var dataRilevazione = ($(this).closest('tr').find('td').eq(4).text())
-
-         var itemsCarousel = ''
-         var indicatorsCarousel = ''
-
-        
-         for (var i=0; i<immagini.length; i++) {
-               if (i==0){
-                 indicatorsCarousel = indicatorsCarousel + '<li data-target="#myCarousel" data-slide-to="' + i +'" class="active"></li>'
-                 }
-             else {
-                 indicatorsCarousel = indicatorsCarousel + '<li data-target="#myCarousel" data-slide-to="' + i +'"></li>'
-                 }
-         }
-      $(".footer-line #UT").html( UT + ' - ' + dataRilevazione)
-      $(".carousel-indicators").html(indicatorsCarousel);
-      
-         for (var i=0; i<immagini.length; i++) {
-         console.log(immagini[i]['ID file'])
-             if (i==0){ 
-                 itemsCarousel = itemsCarousel + 
-                 '<div class="item active">'+
-                   '<img src="https://drive.google.com/uc?id='+ immagini[i]['ID file']+
-                     '" alt="'+immagini[i]['Nome file']+
-                       '"><div class="carousel-caption">'+ immagini[i]["Spazio"]+'</h4></div>'+
-                  '</div>'
-             }
-             else
-             {
-                  itemsCarousel = itemsCarousel + 
-                 '<div class="item">'+
-                   '<img src="https://drive.google.com/uc?id='+ immagini[i]['ID file']+
-                     '" alt="'+immagini[i]['Nome file']+
-                       '"><div class="carousel-caption">'+ immagini[i]["Spazio"]+'</div>'+
-                  '</div>'
-             }
-         }
-       $(".carousel-inner").html(itemsCarousel);
-       
-       
-     })  
-
-
-     //************* necessario altrimenti il carousel si blocca **** 
-         $('.carousel').carousel({
-            interval: 2000
-         })
-// ------------ Fine carousel Foto Spazi UT  ----------------
-
-
-// ------------ carousel Planimetrie UT  ----------------
- $('.dataTable').on('click','#btnGalleryPlan', function(e){
-
-
-   var planimetrie = $(this).data('planimetrie')
-   //var UT = ($(this).closest('tr').find('td').eq(3).text()).toUpperCase();
-   var UT = $(this).data('ufficio')
-   console.log('this UT ' + UT)
-   var dataRilevazione = ($(this).closest('tr').find('td').eq(4).text())
-
-         var itemsCarousel = ''
-         var indicatorsCarousel = ''
-
-        
-         for (var i=0; i<planimetrie.length; i++) {
-               if (i==0){
-                 indicatorsCarousel = indicatorsCarousel + '<li data-target="#myCarousel" data-slide-to="' + i +'" class="active"></li>'
-                 }
-             else {
-                 indicatorsCarousel = indicatorsCarousel + '<li data-target="#myCarousel" data-slide-to="' + i +'"></li>'
-                 }
-         }
-      $(".footer-line #UT").html( UT + ' - ' + dataRilevazione)
-      $(".carousel-indicators").html(indicatorsCarousel);
-      
-         for (var i=0; i<planimetrie.length; i++) {
-         console.log(planimetrie[i]['ID file'])
-             if (i==0){ 
-                 itemsCarousel = itemsCarousel + 
-                 '<div class="item active">'+
-                 
-//                   '<iframe src="https://docs.google.com/viewer?srcid='+planimetrie[i]['ID file']+
-                   '<iframe src="https://drive.google.com/viewer?srcid='+planimetrie[i]['ID file']+
-                   '&pid=explorer&efh=false&a=v&chrome=false&embedded=true" width="580px" height="480px"'+
-                     '" alt="'+planimetrie[i]['Nome file']+
-                       '"></iframe><div class="carousel-caption">'+ planimetrie[i]["Spazio"]+'</h4></div>'+
-                  '</div>'
-             }
-             else
-             {
-                  itemsCarousel = itemsCarousel + 
-                 '<div class="item">'+
-                   '<img src="https://drive.google.com/uc?id='+ planimetrie[i]['ID file']+
-                     '" alt="'+planimetrie[i]['Nome file']+
-                       '"><div class="carousel-caption">'+ planimetrie[i]["Spazio"]+'</div>'+
-                  '</div>'
-             }
-         }
-       $(".carousel-inner").html(itemsCarousel);
-       
-       
-     })  
-
-
-     //************* necessario altrimenti il carousel si blocca **** 
-         $('.carousel').carousel({
-            interval: 2000
-         })
-// ------------ Fine carousel planimetrie UT  ----------------
-
-
-// ------------ Inizio callback childRow  ----------------   
-           
-          $('.dataTable').on('click', 'td.details-control', function () {
-          
-              var classDetails = this.className
-              var tr = $(this).closest('tr');
-              var th = $(this).closest('table').find('th').eq($(this).index());
-              var row = myTb.row( tr );
-              var column = th.text()
-              
-               $('#my-modal').modal({
-                  show: 'true'
-                }); 
-              
-              if ( row.child.isShown() ) {
-              console.log('row child is alredy shown')
-         // This row is already open - close it
-              row.child.hide();
-              tr.removeClass('shown');
-              }              
-              else {
-         // Open this row
-              console.log(classDetails)
-              console.log('row child ' + 'of row ' + row + ' is not already shown')
-                  row.child(list(row.data(),column)).show();
-                  tr.addClass('shown');                 
-              }
-          });
-
-
-// ------------ Fine callback childRow  ----------------          
-
-       })
-     }
 
 </script>
