@@ -15,9 +15,7 @@
       moment.locale('it')
       // parse necessario se l'oggetto viene restituito come JSON
       dataObject = JSON.parse(dataObject)
-      
-      var foto = dataObject['foto']
-      var planimetrie = dataObject['planimetrie']
+
 
       // estrae le proprietà dell'oggetto
        var keys = [];
@@ -71,21 +69,21 @@
               
         columns: [
         
-/* 00 */          { data: 'Modulo', title: "Modulo",orderable: false,}, 
-/* 01 */           { data: 'Dettagli', title: "Dettagli"},
-/* 02 */           { data: 'Funzionario', title: "Funzionario"},
-/* 03 */           { data: 'Ufficio Territoriale', title: "Ufficio"},
-/* 04 */           { data: 'Data rilevazione', title: "Data Rilevazione"},
-/* 05 */           { data: 'email proprietario', title: "Email", visible: false},
-/* 06 */           { data: 'Ruolo', title: "Ruolo", visible: false },
-/* 07 */           { data: 'Media giornaliera STA PRA', title: "Media giornaliera STA PRA"},
-/* 08 */           { data: "Totale personale assegnato", title: "Personale assegnato", visible:false},
-/* 09 */           { data: "Personale in produzione", title: "Personale in produzione", visible:false},
+/* 00 */          { data: 'Update', title: "Modulo",orderable: false,}, 
+/* 01 */           { data: 'DeOrdine di movimento', title: "Ordine di movimento"},
+/* 02 */           { data: 'Nominativo', title: "Nominativo"},
+/* 03 */           { data: 'Provincia missione', title: "Provincia missione"},
+/* 04 */           { data: 'Data inizio', title: "Data inizio"},
+/* 05 */           { data: 'Data fine', title: "Data fine", visible: false},
+/* 06 */           { data: 'Data durata', title: "Data durata", visible: false },
+/* 07 */           { data: 'Giorni', title: "Giorni"},
+/* 08 */           { data: "Tipologia", title: "Personale assegnato", visible:false},
+/* 09 */           { data: "Personale in produzione", title: "Tipologia", visible:false},
 /* 10 */           { data:  null, title: "Foto uffici"},
 /* 11 */           { data:  null, title: "Planimetrie", visible:true},
 /* 12 */           { data:  null, title: "Dettagli", className: 'details-control', orderable: false, searchable: false, defaultContent: '' }, 
-/* 13 */           { data: "Regione", title: "Regione", visible:false},
-/* 14 */           { data: "Regola code", title: "Regolacode", visible:false},
+/* 13 */           { data: "Importo a preventivo", title: "Importo a preventivo", visible:false},
+/* 14 */           { data: "Importo a consuntivo", title: "Importo a consuntivo", visible:false},
 
           ],
           
