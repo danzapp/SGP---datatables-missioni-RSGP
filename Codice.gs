@@ -19,61 +19,46 @@ function include(filename) {
 
 function readData(){
 
-var dataMissioni = sheet.getDataRange().getValues()
 
-// rimuove riga 2 e 3
-dataMissioni.splice(1,2)
-
-
-
-
-
-// modifica il formato della data di rilevazione
-var dataObjectsArray = ObjApp.rangeToObjectsNoCamel(dataMissioni) //Object con un Array di Objects
+//var rows = sheet.getLastRow()-2
+//// Logger.log(rows);
+//var cols = sheet.getLastColumn()+1
+//// Logger.log(cols);
+//var headers = sheet.getRange(1,1,1,cols).getValues()
+//// Logger.log(headers)
+//var data = sheet.getRange(4,1,rows,cols).getValues()
+//// Logger.log(data)
 
 
+var data = sheet.getDataRange().getValues()
+var headers = data[0]
+var dataRawObjectsArray = ObjApp.rangeToObjectsNoCamel(data)
 
-//Logger.log(dataObjectsArray)
-
-for (var i in dataObjectsArray){
-  Logger.log(i + ' - ' + dataObjectsArray[i]['Regione'])
-}
-
-
-
-// ---------------------------------------------
-// controllo ruolo utente: viewer, editor, owner  
-var currentUser = {}
-currentUser.name = Session.getActiveUser().getEmail()
-
-dataObjectsArray.forEach(function(obj){ 
-Logger.log(currentUser.name)
-
-  var editors = ['s.antonielli@aci.it','g.polidori@aci.it','p.rocchetti@aci.it', 'da.zappala@aci.it','c.greblo@aci.it']
-  for (var i in editors){
-    if (currentUser.name == editors[i]){
-      var isEditor = currentUser.name
-    }
-  }
-  Logger.log('obj[email nominativo]' + obj['email nominativo'])
-  Logger.log('currentUser' + currentUser.name)
-   switch(currentUser.name) {
-      case obj['email nominativo']:
-          obj.Ruolo = "Editor" 
-          currentUser.role = 'Editor'      
-          break;
-      case isEditor :
-          obj.Ruolo = "Editor" 
-          currentUser.role = 'Editor'
-          break;
-      default:
-          obj.Ruolo = "Viewer"
-          currentUser.role = 'Viewer'
-  }
+// elimina le prime 2 righe (awesome table)
+var dataObjectsArray = dataRawObjectsArray.filter(function(el){
+      return el.rowNum >2 && el['Stato Richiesta'] != 'Annullata';
 })
 
+var currentUser = Session.getActiveUser().getEmail()
+// Logger.log(currentUser)
 
-Logger.log(JSON.stringify(dataObjectsArray))
+ 
+// ---------------------------------------------
+// controllo ruolo utente: viewer, editor, owner  
+// Logger.log(dataObjectsArray)  
+/*
+for (var i=0; i<dataObjectsArray.length; i++){
+  if(currentUser == dataObjectsArray[i]['email proprietario']){
+    dataObjectsArray[i].indexEditor = 1 ; 
+  }
+  else
+  {
+    dataObjectsArray[i].indexEditor = 0; 
+  }
+}
+*/
+
+//Logger.log(dataObjectsArray)
 
 // ---------------------------------------------
   
@@ -82,9 +67,7 @@ var mainObject = {  // quando completa l'array di Object costruisce l'oggetto Co
       table: dataObjectsArray,
     };
 
- // Logger.log(mainObject);
- // return mainObject  // il risultato viene restituito come Object 
- return JSON.stringify(mainObject) // il risultato viene restituito come JSON e sarà necesario effettuare JSON.parse()
+ Logger.log(mainObject);
+ // return mainObject  // restituisce il risultato come Object
+ return JSON.stringify(mainObject)  // restituisce il risultato come JSON stringify va poi effettuato JSON.parse
 }
-
-

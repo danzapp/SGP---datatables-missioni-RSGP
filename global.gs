@@ -1,8 +1,5 @@
-// origine: https://docs.google.com/spreadsheets/d/1Dv8C0nlKCzZhRk-TJhIfXO3Nd5yDEvk_oFOecFtZ0AY/edit
+// origine: https://docs.google.com/spreadsheets/d/1vJvjg-jssHkDZIo53KMddEP5wHE09QRcNHmiebC3k9s/edit#gid=1088779443
 
-
-// ss = SpreadsheetApp.openById('1m1NvfWzbV6KEovzO2Uxti7uIha7Vd8gYkOCaZAHQTZA')
-ss = SpreadsheetApp.openById('1Dv8C0nlKCzZhRk-TJhIfXO3Nd5yDEvk_oFOecFtZ0AY')
-//sheetname = 'semplificauto Rilevazioni'
-sheetname = 'Missioni'
+ss = SpreadsheetApp.openById('1vJvjg-jssHkDZIo53KMddEP5wHE09QRcNHmiebC3k9s')
+sheetname = 'Agenda'
 sheet = ss.getSheetByName(sheetname)
