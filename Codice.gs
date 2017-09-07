@@ -25,8 +25,8 @@ var dataMissioni = sheet.getDataRange().getValues()
 dataMissioni.splice(1,2)
 
 
-var currentUser = Session.getActiveUser().getEmail()
-// Logger.log(currentUser)
+
+
 
 // modifica il formato della data di rilevazione
 var dataObjectsArray = ObjApp.rangeToObjectsNoCamel(dataMissioni) //Object con un Array di Objects
@@ -43,20 +43,35 @@ for (var i in dataObjectsArray){
 
 // ---------------------------------------------
 // controllo ruolo utente: viewer, editor, owner  
+var currentUser = {}
+currentUser.name = Session.getActiveUser().getEmail()
 
 dataObjectsArray.forEach(function(obj){ 
+Logger.log(currentUser.name)
 
-  if(currentUser == obj['Indirizzo email']){
-    obj.Ruolo = "Editor" ; 
+  var editors = ['s.antonielli@aci.it','g.polidori@aci.it','p.rocchetti@aci.it', 'da.zappala@aci.it','c.greblo@aci.it']
+  for (var i in editors){
+    if (currentUser.name == editors[i]){
+      var isEditor = currentUser.name
+    }
   }
-  else
-  {
-    obj.Ruolo = "Viewer"; 
+  Logger.log('obj[email nominativo]' + obj['email nominativo'])
+  Logger.log('currentUser' + currentUser.name)
+   switch(currentUser.name) {
+      case obj['email nominativo']:
+          obj.Ruolo = "Editor" 
+          currentUser.role = 'Editor'      
+          break;
+      case isEditor :
+          obj.Ruolo = "Editor" 
+          currentUser.role = 'Editor'
+          break;
+      default:
+          obj.Ruolo = "Viewer"
+          currentUser.role = 'Viewer'
   }
-  
-  Logger.log(obj['Ufficio Territoriale'])
-  
 })
+
 
 Logger.log(JSON.stringify(dataObjectsArray))
 

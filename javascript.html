@@ -70,15 +70,16 @@
 /* 00 */          { data: 'Update', title: "Modulo",orderable: false,}, 
 /* 01 */           { data: 'Ordine di movimento', title: "Ordine di movimento"},
 /* 02 */           { data: 'Nominativo', title: "Nominativo"},
-/* 03 */           { data: 'Provincia missione', title: "Provincia missione"},
-/* 04 */           { data: 'Data inizio', title: "Data inizio"},
-/* 05 */           { data: 'Data fine', title: "Data fine", visible: false },
-/* 06 */           { data: 'Data durata', title: "Data durata", visible: false },
-/* 07 */           { data: 'Giorni', title: "Giorni"},
-/* 08 */           { data: "Tipologia", title: "Personale assegnato", visible:false},
-/* 09 */           { data: "Importo a preventivo", title: "Importo a preventivo", visible:true},
-/* 10 */           { data: "Importo a consuntivo", title: "Importo a consuntivo", visible:true},
-/* 11 */           { data: "Stato missione", title: "Stato missione", visible:true},
+/* 03 */           { data: 'email nominativo', title: "email nominativo", visible:false},
+/* 04 */           { data: 'Provincia missione', title: "Provincia missione"},
+/* 05 */           { data: 'Data inizio', title: "Data inizio"},
+/* 06 */           { data: 'Data fine', title: "Data fine", visible: false },
+/* 07 */           { data: 'Data durata', title: "Data durata", visible: false },
+/* 08 */           { data: 'Giorni', title: "Giorni"},
+/* 09 */           { data: "Tipologia", title: "Personale assegnato", visible:false},
+/* 10 */           { data: "Importo a preventivo", title: "Importo a preventivo", visible:true},
+/* 11 */           { data: "Importo a consuntivo", title: "Importo a consuntivo", visible:true},
+/* 12 */           { data: "Stato missione", title: "Stato missione", visible:true},
 
           ],
           
@@ -86,21 +87,17 @@
 
         { targets: '_all', visible: true },
         { targets: [0], render: function ( data, type, row) {
-            if(row.Ruolo == "Viewer"){
+            if(row.Ruolo != "Editor"){
               return '<button class="btn btn-outline btn-info waves-effect disabled">Modifica</button>'; }
               else return '<a href='+data+' class="btn btn-outline btn-danger waves-effect" target="_blank">Modifica</a>';}
               },
-        { targets: [1], render: function ( data, type, row) {
-            if(data == ""){
-              return ''; }
-              else return '<a href='+data+' class="btn btn-outline btn-info waves-effect" target="_blank">Visualizza</a>';}
-              },     
-          { targets: [4], render: function ( data, type, row) {
+     
+          { targets: [5], render: function ( data, type, row) {
               return moment(data).format('YYYY/MM/DD')     
           }
          },
          
-         { targets: [7], render: function ( data, type, row) {       
+         { targets: [8], render: function ( data, type, row) {       
              return data.toFixed(2)         
              }
           }   
